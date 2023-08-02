@@ -13,7 +13,7 @@ namespace CRUD_UoW.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202303251355188_init"; }
+            get { return "202308021254097_init"; }
         }
         
         string IMigrationMetadata.Source

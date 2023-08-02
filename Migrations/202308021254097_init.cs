@@ -8,7 +8,7 @@
         public override void Up()
         {
             CreateTable(
-                "dbo.Auths",
+                "dbo.Authors",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -27,7 +27,7 @@
                         Auth_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Auths", t => t.Auth_Id)
+                .ForeignKey("dbo.Authors", t => t.Auth_Id)
                 .Index(t => t.Title, unique: true)
                 .Index(t => t.Auth_Id);
             
@@ -35,12 +35,12 @@
         
         public override void Down()
         {
-            DropForeignKey("dbo.Posts", "Auth_Id", "dbo.Auths");
+            DropForeignKey("dbo.Posts", "Auth_Id", "dbo.Authors");
             DropIndex("dbo.Posts", new[] { "Auth_Id" });
             DropIndex("dbo.Posts", new[] { "Title" });
-            DropIndex("dbo.Auths", new[] { "Name" });
+            DropIndex("dbo.Authors", new[] { "Name" });
             DropTable("dbo.Posts");
-            DropTable("dbo.Auths");
+            DropTable("dbo.Authors");
         }
     }
 }

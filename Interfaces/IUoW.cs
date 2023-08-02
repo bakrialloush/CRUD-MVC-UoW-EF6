@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace CRUD_UoW.Interfaces
 {
-    internal interface IUoW<T> : IDisposable where T : BaseModel
+    internal interface IUoW : IDisposable
     {
-        IRepository<T> Entity { get; }
+        IRepository<Author> Authors { get; }
+        IRepository<Post> Posts { get; }
         void Save();
     }
 }

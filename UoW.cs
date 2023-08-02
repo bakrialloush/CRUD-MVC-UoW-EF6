@@ -7,19 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CRUD_UoW.UoW
+namespace CRUD_UoW
 {
-    internal class UoW<T> : IUoW<T> where T : BaseModel
+    internal class UoW : IUoW
     {
         DBContext _context;
-        IRepository<T> _entity;
 
         public UoW(DBContext context)
         {
             _context = context;
         }
 
-        public IRepository<T> Entity => _entity ?? new Repository<T>(_context);
+        public IRepository<Author> Authors => new Repository<Author>(_context);
+        public IRepository<Post> Posts => new Repository<Post>(_context);
 
         public void Dispose()
         {
