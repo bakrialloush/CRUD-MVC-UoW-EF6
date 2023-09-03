@@ -7,6 +7,9 @@ namespace CRUD_UoW.Interfaces
     {
         IRepository<Author> Authors { get; }
         IRepository<Post> Posts { get; }
+
+        void BeginTransaction();
+        void Rollback();
         void Save();
     }
 }

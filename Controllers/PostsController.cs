@@ -1,46 +1,81 @@
 ﻿using CRUD_UoW.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CRUD_UoW.Controllers
 {
     internal class PostsController
     {
         DBContext _context;
-        UoW _uow;
 
         public PostsController(DBContext context)
         {
             _context = context;
-            _uow = new UoW(_context);
         }
 
         public virtual IEnumerable<Post> GetList()
         {
-            return _uow.Posts.GetList();
+            return _context.Posts.ToList();
         }
 
         public virtual Post GetSingle(int id)
         {
-            return _uow.Posts.GetSingle(id);
+            return _context.Posts.Find(id);
         }
 
         public virtual Post Add(Post post)
         {
-            var added = _uow.Posts.Add(post);
-            _uow.Save();
-            return added;
+            using (var uow = new UoW(_context))
+            {
+                uow.BeginTransaction();
+                try
+                {
+                    var added = uow.Posts.Add(post);
+                    uow.Save();
+                    return added;
+                }
+                catch
+                {
+                    uow.Rollback();
+                    throw;
+                }
+            }
         }
 
         public virtual void Update(Post post)
         {
-            _uow.Posts.Update(post);
-            _uow.Save();
+            using (var uow = new UoW(_context))
+            {
+                uow.BeginTransaction();
+                try
+                {
+                    uow.Posts.Update(post);
+                    uow.Save();
+                }
+                catch
+                {
+                    uow.Rollback();
+                    throw;
+                }
+            }
         }
 
         public virtual void Delete(int id)
         {
-            _uow.Posts.Delete(id);
-            _uow.Save();
+            using (var uow = new UoW(_context))
+            {
+                uow.BeginTransaction();
+                try
+                {
+                    uow.Posts.Delete(id);
+                    uow.Save();
+                }
+                catch
+                {
+                    uow.Rollback();
+                    throw;
+                }
+            }
         }
     }
 }

@@ -1,46 +1,81 @@
 ﻿using CRUD_UoW.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CRUD_UoW.Controllers
 {
     internal class AuthorsController
     {
         DBContext _context;
-        UoW _uow;
 
         public AuthorsController(DBContext context)
         {
             _context = context;
-            _uow = new UoW(_context);
         }
 
         public virtual IEnumerable<Author> GetList()
         {
-            return _uow.Authors.GetList();
+            return _context.Authors.ToList();
         }
 
         public virtual Author GetSingle(int id)
         {
-            return _uow.Authors.GetSingle(id);
+            return _context.Authors.Find(id);
         }
 
         public virtual Author Add(Author author)
         {
-            var added = _uow.Authors.Add(author);
-            _uow.Save();
-            return added;
+            using (var uow = new UoW(_context))
+            {
+                uow.BeginTransaction();
+                try
+                {
+                    var added = uow.Authors.Add(author);
+                    uow.Save();
+                    return added;
+                }
+                catch
+                {
+                    uow.Rollback();
+                    throw;
+                }
+            }
         }
 
         public virtual void Update(Author author)
         {
-            _uow.Authors.Update(author);
-            _uow.Save();
+            using (var uow = new UoW(_context))
+            {
+                uow.BeginTransaction();
+                try
+                {
+                    uow.Authors.Update(author);
+                    uow.Save();
+                }
+                catch
+                {
+                    uow.Rollback();
+                    throw;
+                }
+            }
         }
 
         public virtual void Delete(int id)
         {
-            _uow.Authors.Delete(id);
-            _uow.Save();
+            using (var uow = new UoW(_context))
+            {
+                uow.BeginTransaction();
+                try
+                {
+                    uow.Authors.Delete(id);
+                    uow.Save();
+                }
+                catch
+                {
+                    uow.Rollback();
+                    throw;
+                }
+            }
         }
     }
 }
