@@ -3,7 +3,7 @@ using CRUD_UoW.Models;
 using System;
 using System.Windows.Forms;
 
-namespace CRUD_UoW.Views
+namespace CRUD_UoW.Forms
 {
     public partial class MainForm : Form
     {

@@ -1,4 +1,4 @@
-﻿namespace CRUD_UoW.Views
+﻿namespace CRUD_UoW.Forms
 {
     partial class MainForm
     {
