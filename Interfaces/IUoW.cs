@@ -3,7 +3,7 @@ using System;
 
 namespace CRUD_UoW.Interfaces
 {
-    internal interface IUoW : IDisposable
+    public interface IUoW : IDisposable
     {
         IRepository<Author> Authors { get; }
         IRepository<Post> Posts { get; }

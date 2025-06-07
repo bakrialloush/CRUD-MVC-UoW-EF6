@@ -50,7 +50,7 @@
             this.btnAddAuth.TabIndex = 0;
             this.btnAddAuth.Text = "Add Auth";
             this.btnAddAuth.UseVisualStyleBackColor = true;
-            this.btnAddAuth.Click += new System.EventHandler(this.btnAddAuth_Click);
+            this.btnAddAuth.Click += new System.EventHandler(this.BtnAddAuth_Click);
             // 
             // textAuthName
             // 
@@ -71,7 +71,7 @@
             this.gridAuth.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridAuth.Size = new System.Drawing.Size(451, 323);
             this.gridAuth.TabIndex = 2;
-            this.gridAuth.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridAuth_CellDoubleClick);
+            this.gridAuth.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridAuth_CellDoubleClick);
             // 
             // gridPost
             // 
@@ -85,7 +85,7 @@
             this.gridPost.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridPost.Size = new System.Drawing.Size(451, 323);
             this.gridPost.TabIndex = 5;
-            this.gridPost.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridPost_CellDoubleClick);
+            this.gridPost.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridPost_CellDoubleClick);
             // 
             // textPostTitle
             // 
@@ -102,7 +102,7 @@
             this.btnAddPost.TabIndex = 3;
             this.btnAddPost.Text = "Add Post";
             this.btnAddPost.UseVisualStyleBackColor = true;
-            this.btnAddPost.Click += new System.EventHandler(this.btnAddPost_Click);
+            this.btnAddPost.Click += new System.EventHandler(this.BtnAddPost_Click);
             // 
             // btnDelAuth
             // 
@@ -112,7 +112,7 @@
             this.btnDelAuth.TabIndex = 6;
             this.btnDelAuth.Text = "Delete Auth";
             this.btnDelAuth.UseVisualStyleBackColor = true;
-            this.btnDelAuth.Click += new System.EventHandler(this.btnDelAuth_Click);
+            this.btnDelAuth.Click += new System.EventHandler(this.BtnDelAuth_Click);
             // 
             // btnDelPost
             // 
@@ -122,7 +122,7 @@
             this.btnDelPost.TabIndex = 7;
             this.btnDelPost.Text = "Delete Post";
             this.btnDelPost.UseVisualStyleBackColor = true;
-            this.btnDelPost.Click += new System.EventHandler(this.btnDelPost_Click);
+            this.btnDelPost.Click += new System.EventHandler(this.BtnDelPost_Click);
             // 
             // btnEditAuth
             // 
@@ -132,7 +132,7 @@
             this.btnEditAuth.TabIndex = 8;
             this.btnEditAuth.Text = "Update Auth";
             this.btnEditAuth.UseVisualStyleBackColor = true;
-            this.btnEditAuth.Click += new System.EventHandler(this.btnEditAuth_Click);
+            this.btnEditAuth.Click += new System.EventHandler(this.BtnEditAuth_Click);
             // 
             // btnEditPost
             // 
@@ -142,7 +142,7 @@
             this.btnEditPost.TabIndex = 9;
             this.btnEditPost.Text = "Update Post";
             this.btnEditPost.UseVisualStyleBackColor = true;
-            this.btnEditPost.Click += new System.EventHandler(this.btnEditPost_Click);
+            this.btnEditPost.Click += new System.EventHandler(this.BtnEditPost_Click);
             // 
             // MainForm
             // 

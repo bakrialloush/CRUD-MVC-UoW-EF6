@@ -8,8 +8,8 @@ namespace CRUD_UoW.Repositories
 {
     internal class Repository<T> : IRepository<T> where T : BaseModel
     {
-        DBContext _context;
-        DbSet<T> _table;
+        private readonly DBContext _context;
+        private readonly DbSet<T> _table;
 
         public Repository(DBContext context)
         {
@@ -17,7 +17,7 @@ namespace CRUD_UoW.Repositories
             _table = _context.Set<T>();
         }
 
-        public IEnumerable<T> GetList()
+        public IEnumerable<T> GetAll()
         {
             return _table.ToList();
         }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CRUD_UoW.Models
 {
-    internal class Author : BaseModel
+    public class Author : BaseModel
     {
         [Required, Index(IsUnique = true), MaxLength(20)]
         public string Name { get; set; }

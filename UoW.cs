@@ -8,26 +8,33 @@ namespace CRUD_UoW
 {
     internal class UoW : IUoW
     {
-        DBContext _context;
-        DbContextTransaction _transaction;
+        private readonly DBContext _context;
+        private DbContextTransaction _transaction;
+
+        public IRepository<Author> Authors => new Repository<Author>(_context);
+        public IRepository<Post> Posts => new Repository<Post>(_context);
 
         public UoW(DBContext context)
         {
             _context = context;
         }
 
-        public IRepository<Author> Authors => new Repository<Author>(_context);
-        public IRepository<Post> Posts => new Repository<Post>(_context);
-
         public void BeginTransaction()
         {
-            _transaction = _context.Database.BeginTransaction();
+            if (_transaction != null)
+            {
+                _transaction = _context.Database.BeginTransaction();
+            }
         }
 
         public void Save()
         {
             _context.SaveChanges();
-            _transaction.Commit();
+            if (_transaction != null)
+            {
+                _transaction.Commit();
+                _transaction = null;
+            }
         }
 
         public void Dispose()
@@ -37,7 +44,10 @@ namespace CRUD_UoW
 
         public void Rollback()
         {
-            _transaction.Rollback();
+            if (_transaction == null)
+            {
+                _transaction.Rollback();
+            }
         }
 
     }

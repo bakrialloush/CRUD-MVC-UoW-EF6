@@ -1,31 +1,28 @@
-﻿using CRUD_UoW.Controllers;
+﻿using CRUD_UoW.Interfaces;
 using CRUD_UoW.Models;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace CRUD_UoW.Forms
 {
     public partial class MainForm : Form
     {
-        DBContext context;
-        AuthorsController authors;
-        PostsController posts;
+        private readonly IUoW _uow;
         int id;
 
-        public MainForm()
+        public MainForm(IUoW uow)
         {
             InitializeComponent();
-            context = new DBContext();
-            authors = new AuthorsController(context);
-            posts = new PostsController(context);
+            _uow = uow;
             LoadGrids();
         }
 
         private void LoadGrids()
         {
             id = 0;
-            gridAuth.DataSource = authors.GetList();
-            gridPost.DataSource = posts.GetList();
+            gridAuth.DataSource = _uow.Authors.GetAll().ToList();
+            gridPost.DataSource = _uow.Posts.GetAll().ToList();
             foreach (Control control in Controls)
             {
                 control.Enabled = true;
@@ -34,14 +31,15 @@ namespace CRUD_UoW.Forms
             textAuthName.Text = textPostTitle.Text = "";
         }
 
-        private void btnAddAuth_Click(object sender, EventArgs e)
+        private void BtnAddAuth_Click(object sender, EventArgs e)
         {
             try
             {
-                authors.Add(new Author
+                _uow.Authors.Add(new Author
                 {
                     Name = textAuthName.Text,
                 });
+                _uow.Save();
                 LoadGrids();
             }
             catch (Exception ex)
@@ -50,17 +48,18 @@ namespace CRUD_UoW.Forms
             }
         }
 
-        private void btnAddPost_Click(object sender, EventArgs e)
+        private void BtnAddPost_Click(object sender, EventArgs e)
         {
             try
             {
                 int id = (int)gridAuth.SelectedRows[0].Cells["Id"].Value;
-                var auth = authors.GetSingle(id);
-                posts.Add(new Post
+                var auth = _uow.Authors.GetSingle(id);
+                _uow.Posts.Add(new Post
                 {
                     Title = textPostTitle.Text,
                     Auth = auth,
                 });
+                _uow.Save();
                 LoadGrids();
             }
             catch (Exception ex)
@@ -69,12 +68,13 @@ namespace CRUD_UoW.Forms
             }
         }
 
-        private void btnDelAuth_Click(object sender, EventArgs e)
+        private void BtnDelAuth_Click(object sender, EventArgs e)
         {
             try
             {
                 int id = (int)gridAuth.SelectedRows[0].Cells["Id"].Value;
-                authors.Delete(id);
+                _uow.Authors.Delete(id);
+                _uow.Save();
                 LoadGrids();
             }
             catch (Exception ex)
@@ -83,12 +83,13 @@ namespace CRUD_UoW.Forms
             }
         }
 
-        private void btnDelPost_Click(object sender, EventArgs e)
+        private void BtnDelPost_Click(object sender, EventArgs e)
         {
             try
             {
                 int id = (int)gridPost.SelectedRows[0].Cells["Id"].Value;
-                posts.Delete(id);
+                _uow.Posts.Delete(id);
+                _uow.Save();
                 LoadGrids();
             }
             catch (Exception ex)
@@ -97,11 +98,11 @@ namespace CRUD_UoW.Forms
             }
         }
 
-        private void gridAuth_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void GridAuth_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                var auth = authors.GetSingle((int)gridAuth["Id", e.RowIndex].Value);
+                var auth = _uow.Authors.GetSingle((int)gridAuth["Id", e.RowIndex].Value);
                 if (auth != null)
                 {
                     id = auth.Id;
@@ -122,11 +123,11 @@ namespace CRUD_UoW.Forms
             }
         }
 
-        private void gridPost_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void GridPost_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                var post = posts.GetSingle((int)gridPost["Id", e.RowIndex].Value);
+                var post = _uow.Posts.GetSingle((int)gridPost["Id", e.RowIndex].Value);
                 if (post != null)
                 {
                     id = post.Id;
@@ -149,13 +150,14 @@ namespace CRUD_UoW.Forms
             }
         }
 
-        private void btnEditAuth_Click(object sender, EventArgs e)
+        private void BtnEditAuth_Click(object sender, EventArgs e)
         {
             try
             {
-                var auth = authors.GetSingle(id);
+                var auth = _uow.Authors.GetSingle(id);
                 auth.Name = textAuthName.Text;
-                authors.Update(auth);
+                _uow.Authors.Update(auth);
+                _uow.Save();
                 LoadGrids();
             }
             catch (Exception ex)
@@ -164,15 +166,16 @@ namespace CRUD_UoW.Forms
             }
         }
 
-        private void btnEditPost_Click(object sender, EventArgs e)
+        private void BtnEditPost_Click(object sender, EventArgs e)
         {
             try
             {
-                var auth = authors.GetSingle((int)gridAuth.SelectedRows[0].Cells["Id"].Value);
-                var post = posts.GetSingle(id);
+                var auth = _uow.Authors.GetSingle((int)gridAuth.SelectedRows[0].Cells["Id"].Value);
+                var post = _uow.Posts.GetSingle(id);
                 post.Title = textPostTitle.Text;
                 post.Auth = auth;
-                posts.Update(post);
+                _uow.Posts.Update(post);
+                _uow.Save();
                 LoadGrids();
                 textPostTitle.Focus();
             }
